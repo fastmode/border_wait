@@ -28,7 +28,25 @@ doc.css("port").each do |p|
 	comm_fast_delay_minutes = p.css("commercial_vehicle_lanes fast_lanes delay_minutes").text
 	comm_fast_lanes_open = p.css("commercial_vehicle_lanes fast_lanes lanes_open").text
 
+	# Passenger Vehicle Lanes
+	pass_max_lanes = p.css("passenger_vehicle_lanes maximum_lanes").text
+	pass_standard_update_time = p.css("passenger_vehicle_lanes standard_lanes update_time").text
+	pass_standard_operational_status = p.css("passenger_vehicle_lanes standard_lanes operational_status").text
+	pass_standard_delay_minutes = p.css("passenger_vehicle_lanes standard_lanes delay_minutes").text
+	pass_standard_lanes_open = p.css("passenger_vehicle_lanes standard_lanes lanes_open").text
+	pass_sentri_update_time = p.css("passenger_vehicle_lanes nexus_sentri_lanes update_time").text
+	pass_sentri_operational_status = p.css("passenger_vehicle_lanes nexus_sentri_lanes operational_status").text
+	pass_sentri_delay_minutes = p.css("passenger_vehicle_lanes nexus_sentri_lanes delay_minutes").text
+	pass_sentri_lanes_open = p.css("passenger_vehicle_lanes nexus_sentri_lanes lanes_open").text
+	pass_ready_update_time = p.css("passenger_vehicle_lanes ready_lanes update_time").text
+	pass_ready_operational_status = p.css("passenger_vehicle_lanes ready_lanes operational_status").text
+	pass_ready_delay_minutes = p.css("passenger_vehicle_lanes ready_lanes delay_minutes").text
+	pass_ready_lanes_open = p.css("passenger_vehicle_lanes ready_lanes lanes_open").text
+
+
+
+
 	ports << {number: port_number, border: border, port_name: port_name, crossing_name: crossing_name, hours: hours, date: date, port_status: port_status, comm_max_lanes: comm_max_lanes}
 end
-binding.pry
+
 ports
