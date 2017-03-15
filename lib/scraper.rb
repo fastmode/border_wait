@@ -28,6 +28,7 @@ doc.css("port").each do |p|
 	comm_fast_delay_minutes = p.css("commercial_vehicle_lanes fast_lanes delay_minutes").text
 	comm_fast_lanes_open = p.css("commercial_vehicle_lanes fast_lanes lanes_open").text
 
-	
-	binding.pry
+	ports << {number: port_number, border: border, port_name: port_name, crossing_name: crossing_name, hours: hours, date: date, port_status: port_status, comm_max_lanes: comm_max_lanes}
 end
+binding.pry
+ports
