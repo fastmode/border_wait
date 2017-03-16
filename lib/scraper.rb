@@ -3,9 +3,9 @@ require "open-uri"
 
 class Scraper
 	
-	def self.scrape_port_wait_times
-		site = "https://apps.cbp.gov/bwt/bwt.xml"
-		doc = Nokogiri::HTML(open(site))
+	def self.scrape_port_wait_times(url)
+
+		doc = Nokogiri::HTML(open(url))
 
 		ports = []
 
