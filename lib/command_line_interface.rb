@@ -4,8 +4,8 @@ require 'nokogiri'
 require 'colorize'
 
 class CommandLineInteface
-#  SITE = "./fixtures/html/bwt.xml"
-  SITE = "https://apps.cbp.gov/bwt/bwt.xml"
+  SITE = "./fixtures/html/bwt.xml"
+
   
   def run
     make_ports
@@ -63,19 +63,24 @@ class CommandLineInteface
     country.each.with_index(1) do |port, i|
       puts "#{i}. #{port.port_name}  #{port.crossing_name}"
     end
+    
     print "Please select a port of entry: "
     city = gets.strip.to_i-1
+    
     puts ""
     puts "#{country[city].port_name.upcase.colorize(:blue)}" + " |  #{country[city].crossing_name.colorize(:blue)}" + "  Updated #{country[city].pass_standard_update_time}".colorize(:green)
     puts "  port status:".colorize(:light_blue) + " #{country[city].port_status}"
     puts "  hours:".colorize(:light_blue) + " #{country[city].hours}"
+    
     puts "  PASSENGER LANES"
     puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].pass_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].pass_standard_delay_minutes} min"
     puts "  ready lanes open:".colorize(:light_blue) + " #{country[city].pass_ready_lanes_open}" + "       delay:".colorize(:light_blue) + " #{country[city].pass_ready_delay_minutes} min"
     puts "  sentri lanes open:".colorize(:light_blue) + " #{country[city].pass_sentri_lanes_open}" + "      delay:".colorize(:light_blue) + " #{country[city].pass_sentri_delay_minutes} min"
+    
     puts "  PEDESTRIAN LANES"
     puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].ped_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].ped_standard_delay_minutes} min"
     puts "  ready lanes open:".colorize(:light_blue) + " #{country[city].ped_ready_lanes_open}" + "        delay:".colorize(:light_blue) + " #{country[city].ped_ready_delay_minutes} min"
+    
     puts "  COMMERCIAL LANES"
     puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].comm_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].comm_standard_delay_minutes} min"
     puts "  FAST lanes open:".colorize(:light_blue) + " #{country[city].comm_fast_lanes_open}" + "        delay:".colorize(:light_blue) + " #{country[city].comm_fast_delay_minutes} min"
