@@ -13,7 +13,8 @@ The CLI allows you to:
 ## Installation
 1. Clone this repo
 2. Open Terminal and navigate to cloned folder
-3. Run: $ ./bin/run
+3. Run: 
+    $ ./bin/run
 4. Follow in program instructions
 
 ## Contributing
