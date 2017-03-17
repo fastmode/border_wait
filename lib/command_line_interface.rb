@@ -4,8 +4,8 @@ require 'nokogiri'
 require 'colorize'
 
 class CommandLineInteface
-  SITE = "./fixtures/html/bwt.xml"
-
+#  SITE = "./fixtures/html/bwt.xml"
+  SITE = "https://apps.cbp.gov/bwt/bwt.xml"
   
   def run
     make_ports
