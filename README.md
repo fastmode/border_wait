@@ -22,7 +22,7 @@ The CLI allows you to:
 4. Follow in program instructions
 
 ## Contributing
-Bug reports and pull requests are welcome on GitHub at hhttps://github.com/fastmode/border_wait. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/fastmode/border_wait. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org/version/1/0/0/) code of conduct.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
