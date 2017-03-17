@@ -2,15 +2,15 @@ require_relative "../lib/scraper.rb"
 require_relative "../lib/ports.rb"
 require 'nokogiri'
 require 'colorize'
-require 'pry'
 
 class CommandLineInteface
-  SITE = "https://apps.cbp.gov/bwt/bwt.xml"
+  SITE = "./fixtures/html/bwt.xml"
   
   def run
     make_ports
     welcome_display
     display_country_ports
+    goodbye
   end
   
   def make_ports
@@ -19,66 +19,92 @@ class CommandLineInteface
   end
   
   def welcome_display
+    puts ""
     puts "Welcome to Border Wait"
-    puts "Please select an option from below:"
-    puts "1. Canadian Border Ports"
-    puts "2. Mexico Border Ports"
-    puts "3. List all ports"
+    puts "-Find out current border wait times"
+
+    initial_options
   end
   
+  def initial_options
+    puts ""
+    puts "Please select an option from below"
+    puts " 1. Canadian Border Ports"
+    puts " 2. Mexico Border Ports"
+    puts " 3. List all ports details"
+    puts " 4. Exit program"
+  end
   
   def display_country_ports
-    country = nil
-    country = gets.strip
-    if country == "1"
-      puts "Canada Border".colorize(:blue)
-      canada = Ports.all.select { |i| i.border == "Canadian Border"}
-      canada.each.with_index(1) do |port, i|
-        puts "#{i}. #{port.port_name}  #{port.crossing_name}"
+    input = nil
+    while input != "exit"
+      print "[1-4]: "
+      input = gets.strip
+      if input == "1"
+        country_border("Canadian Border")
+      elsif input == "2"
+        country_border("Mexican Border")
+      elsif input == "3"
+        display_all_ports
+      elsif input == "4"
+        break
+      else
+        puts "Please enter a correct option."
       end
-    elsif country == "2"
-      puts "Mexico Border".colorize(:blue)
-      mexico = Ports.all.select { |i| i.border == "Mexican Border"} 
-      mexico.each.with_index(1) do |port, i|
-        puts "#{i}. #{port.port_name}  #{port.crossing_name}"
-      end
-      puts "Please select a port of entry:"
-      city = gets.strip.to_i-1
-      puts mexico[city].port_name.upcase.colorize(:blue)
-      puts "  crossing name:".colorize(:light_blue) + " #{mexico[city].crossing_name}"
-      puts "  port status:".colorize(:light_blue) + " #{mexico[city].port_status}"
-      puts "  border:".colorize(:light_blue) + " #{mexico[city].border}"
-      puts "  PASSENGER LANES"
-      puts "  standard lanes open :".colorize(:light_blue) + " #{mexico[city].pass_standard_lanes_open}"
-      puts "  standard lane delay:".colorize(:light_blue) + " #{mexico[city].pass_standard_delay_minutes}"
-      puts "  ready lanes open:".colorize(:light_blue) + " #{mexico[city].pass_ready_lanes_open}"
-      puts "  ready lanes delay:".colorize(:light_blue) + " #{mexico[city].pass_ready_delay_minutes}"
-      puts "  sentri lanes open:".colorize(:light_blue) + " #{mexico[city].pass_sentri_lanes_open}"
-      puts "  sentri lanes delay:".colorize(:light_blue) + " #{mexico[city].pass_sentri_delay_minutes}"
-      puts "----------------------".colorize(:green)
-    elsif country == "3"
-      display_all_ports
-    else
-      puts "Please enter a correct option."
-      display_country_ports
+      initial_options
     end
+  end
+  
+  def country_border(city)
+    puts ""
+    puts city.upcase.colorize(:blue)
+    country = Ports.all.select { |i| i.border == city}
+    country.each.with_index(1) do |port, i|
+      puts "#{i}. #{port.port_name}  #{port.crossing_name}"
+    end
+    print "Please select a port of entry: "
+    city = gets.strip.to_i-1
+    puts ""
+    puts "#{country[city].port_name.upcase.colorize(:blue)}" + " |  #{country[city].crossing_name.colorize(:blue)}" + "  Updated #{country[city].pass_standard_update_time}".colorize(:green)
+    puts "  port status:".colorize(:light_blue) + " #{country[city].port_status}"
+    puts "  hours:".colorize(:light_blue) + " #{country[city].hours}"
+    puts "  PASSENGER LANES"
+    puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].pass_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].pass_standard_delay_minutes} min"
+    puts "  ready lanes open:".colorize(:light_blue) + " #{country[city].pass_ready_lanes_open}" + "       delay:".colorize(:light_blue) + " #{country[city].pass_ready_delay_minutes} min"
+    puts "  sentri lanes open:".colorize(:light_blue) + " #{country[city].pass_sentri_lanes_open}" + "      delay:".colorize(:light_blue) + " #{country[city].pass_sentri_delay_minutes} min"
+    puts "  PEDESTRIAN LANES"
+    puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].ped_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].ped_standard_delay_minutes} min"
+    puts "  ready lanes open:".colorize(:light_blue) + " #{country[city].ped_ready_lanes_open}" + "        delay:".colorize(:light_blue) + " #{country[city].ped_ready_delay_minutes} min"
+    puts "  COMMERCIAL LANES"
+    puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].comm_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].comm_standard_delay_minutes} min"
+    puts "  FAST lanes open:".colorize(:light_blue) + " #{country[city].comm_fast_lanes_open}" + "        delay:".colorize(:light_blue) + " #{country[city].comm_fast_delay_minutes} min"
+    puts "----------------------".colorize(:green)
   end
   
   def display_all_ports
     Ports.all.each do |port|
-      puts "#{port.port_name.upcase}".colorize(:blue)
-      puts "  crossing name:".colorize(:light_blue) + " #{port.crossing_name}"
+      puts "#{port.port_name.upcase.colorize(:blue)}" + " |  #{port.crossing_name.colorize(:blue)}" + "  Updated #{port.pass_standard_update_time}".colorize(:green)
       puts "  port status:".colorize(:light_blue) + " #{port.port_status}"
-      puts "  border:".colorize(:light_blue) + " #{port.border}"
+      puts "  hours:".colorize(:light_blue) + " #{port.hours}"
       puts "  PASSENGER LANES"
-      puts "  standard lanes open :".colorize(:light_blue) + " #{port.pass_standard_lanes_open}"
-      puts "  standard lane delay:".colorize(:light_blue) + " #{port.pass_standard_delay_minutes}"
-      puts "  ready lanes open:".colorize(:light_blue) + " #{port.pass_ready_lanes_open}"
-      puts "  ready lanes delay:".colorize(:light_blue) + " #{port.pass_ready_delay_minutes}"
-      puts "  sentri lanes open:".colorize(:light_blue) + " #{port.pass_sentri_lanes_open}"
-      puts "  sentri lanes delay:".colorize(:light_blue) + " #{port.pass_sentri_delay_minutes}"
+      puts "  standard lanes open:".colorize(:light_blue) + " #{port.pass_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{port.pass_standard_delay_minutes} min"
+      puts "  ready lanes open:".colorize(:light_blue) + " #{port.pass_ready_lanes_open}" + "       delay:".colorize(:light_blue) + " #{port.pass_ready_delay_minutes} min"
+      puts "  sentri lanes open:".colorize(:light_blue) + " #{port.pass_sentri_lanes_open}" + "      delay:".colorize(:light_blue) + " #{port.pass_sentri_delay_minutes} min"
+      puts "  PEDESTRIAN LANES"
+      puts "  standard lanes open:".colorize(:light_blue) + " #{port.ped_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{port.ped_standard_delay_minutes} min"
+      puts "  ready lanes open:".colorize(:light_blue) + " #{port.ped_ready_lanes_open}" + "        delay:".colorize(:light_blue) + " #{port.ped_ready_delay_minutes} min"
+      puts "  COMMERCIAL LANES"
+      puts "  standard lanes open:".colorize(:light_blue) + " #{port.comm_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{port.comm_standard_delay_minutes} min"
+      puts "  FAST lanes open:".colorize(:light_blue) + " #{port.comm_fast_lanes_open}" + "        delay:".colorize(:light_blue) + " #{port.comm_fast_delay_minutes} min"
       puts "----------------------".colorize(:green)
     end
   end
-    
+  
+  def goodbye
+    puts ""
+    puts "Thank you for using Border Wait"
+    puts "Safe Travels!"
+    puts ""
+  end
+
 end
