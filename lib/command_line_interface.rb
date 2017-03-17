@@ -4,7 +4,8 @@ require 'nokogiri'
 require 'colorize'
 
 class CommandLineInteface
-  SITE = "./fixtures/html/bwt.xml"
+#  SITE = "./fixtures/html/bwt.xml"
+  SITE = "https://apps.cbp.gov/bwt/bwt.xml"
   
   def run
     make_ports
@@ -78,7 +79,6 @@ class CommandLineInteface
     puts "  COMMERCIAL LANES"
     puts "  standard lanes open:".colorize(:light_blue) + " #{country[city].comm_standard_lanes_open}" + "    delay:".colorize(:light_blue) + " #{country[city].comm_standard_delay_minutes} min"
     puts "  FAST lanes open:".colorize(:light_blue) + " #{country[city].comm_fast_lanes_open}" + "        delay:".colorize(:light_blue) + " #{country[city].comm_fast_delay_minutes} min"
-    puts "----------------------".colorize(:green)
   end
   
   def display_all_ports
