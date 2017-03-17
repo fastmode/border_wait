@@ -2,15 +2,17 @@
 
 This Ruby App provides a CLI to view current wait times at the Mexico and Canada borders with the USA.
 
-Data is pulled from the U.S. Customes and Border Protection site: https://bwt.cbp.gov/
+Data is pulled from the U.S. Customes and Border Protection site: https://bwt.cbp.gov/.
+
 Information presented on the above site is considered public information and may be distributed or copied for non-commercial purposes, except where third party copyright notification exists.
 
 The CLI allows you to:
 1. List Canadian and Mexican ports of entry and 
-2. Wiew specific details for selected port
+2. View specific details for selected port
 3. View all details from every port of entry
 
 ## Installation
+```
 1. Clone this repo
 2. Open Terminal and navigate to cloned folder
 3. Run: 
