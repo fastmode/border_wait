@@ -5,7 +5,8 @@ require 'colorize'
 
 class CommandLineInteface
 #  SITE = "./fixtures/html/bwt.xml"
-  SITE = "https://apps.cbp.gov/bwt/bwt.xml"
+#  SITE = "https://apps.cbp.gov/bwt/bwt.xml"   - Outdated xml endpoint
+  SITE = "https://bwt.cbp.gov/xml/bwt.xml" 
   
   def run
     make_ports
